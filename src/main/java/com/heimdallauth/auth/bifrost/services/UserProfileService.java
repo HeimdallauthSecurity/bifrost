@@ -1,6 +1,5 @@
 package com.heimdallauth.auth.bifrost.services;
 
-import ch.qos.logback.core.util.StringUtil;
 import com.heimdallauth.auth.bifrost.clients.UserProfileClient;
 import com.heimdallauth.auth.bifrost.constants.DeliveryStatus;
 import com.heimdallauth.auth.bifrost.constants.MailType;
