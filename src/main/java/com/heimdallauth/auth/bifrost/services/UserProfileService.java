@@ -5,6 +5,7 @@ import com.heimdallauth.auth.bifrost.constants.DeliveryStatus;
 import com.heimdallauth.auth.bifrost.constants.MailType;
 import com.heimdallauth.auth.bifrost.dto.UserInformationDTO;
 import com.heimdallauth.auth.bifrost.mailer.BifrostMail;
+import com.heimdallauth.auth.bifrost.records.EmailRequestDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,19 @@ public class UserProfileService {
         this.userProfileClient = userProfileClient;
         this.bifrostMail = bifrostMail;
     }
+
+    public DeliveryStatus processEmailSendRequest(EmailRequestDTO emailRequestDTO){
+        switch (emailRequestDTO.mailType()) {
+            case PROFILE_VERIFICATION -> {
+                return sendUserProfileVerificationEmail(emailRequestDTO.profileId());
+            }
+            default -> {
+                log.error("Invalid mail type: {}", emailRequestDTO.mailType());
+                return DeliveryStatus.FAILED;
+            }
+        }
+    }
+
     private DeliveryStatus sendUserProfileVerificationEmail(String username) {
         UserInformationDTO userInformationDTO = userProfileClient.getUserInformation(username);
         log.info("Sending verification email to user: {} with email: {}", userInformationDTO.username(), userInformationDTO.email());
