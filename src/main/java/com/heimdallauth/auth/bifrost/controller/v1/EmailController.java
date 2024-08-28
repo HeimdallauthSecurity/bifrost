@@ -5,6 +5,7 @@ import com.heimdallauth.auth.bifrost.records.EmailRequestDTO;
 import com.heimdallauth.auth.bifrost.services.UserProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,7 @@ public class EmailController {
             @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     })
     @PostMapping("/send")
-    public DeliveryStatus sendEmail(@RequestBody EmailRequestDTO emailRequestDTO){
+    public DeliveryStatus sendEmail(@RequestBody EmailRequestDTO emailRequestDTO) throws MessagingException {
         return userProfileService.processEmailSendRequest(emailRequestDTO);
     }
 }
