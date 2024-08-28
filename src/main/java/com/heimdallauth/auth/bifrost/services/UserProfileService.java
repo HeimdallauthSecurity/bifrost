@@ -3,6 +3,7 @@ package com.heimdallauth.auth.bifrost.services;
 import com.heimdallauth.auth.bifrost.clients.UserProfileClient;
 import com.heimdallauth.auth.bifrost.constants.DeliveryStatus;
 import com.heimdallauth.auth.bifrost.constants.MailType;
+import com.heimdallauth.auth.bifrost.dao.EmailDocument;
 import com.heimdallauth.auth.bifrost.dto.UserInformationDTO;
 import com.heimdallauth.auth.bifrost.mailer.BifrostMail;
 import com.heimdallauth.auth.bifrost.records.EmailRequestDTO;
@@ -16,11 +17,13 @@ import org.springframework.stereotype.Service;
 public class UserProfileService {
     private final UserProfileClient userProfileClient;
     private final BifrostMail bifrostMail;
+    private final EmailService emailService;
 
     @Autowired
-    public UserProfileService(UserProfileClient userProfileClient, BifrostMail bifrostMail) {
+    public UserProfileService(UserProfileClient userProfileClient, BifrostMail bifrostMail, EmailService emailService) {
         this.userProfileClient = userProfileClient;
         this.bifrostMail = bifrostMail;
+        this.emailService = emailService;
     }
 
     public DeliveryStatus processEmailSendRequest(EmailRequestDTO emailRequestDTO){
@@ -39,6 +42,8 @@ public class UserProfileService {
         UserInformationDTO userInformationDTO = userProfileClient.getUserInformation(username);
         log.info("Sending verification email to user: {} with email: {}", userInformationDTO.username(), userInformationDTO.email());
         String bodyContent = StringUtils.EMPTY;
+        EmailDocument savedEmailDocument = emailService.createEmailDeliveryRecord(userInformationDTO.email(), userInformationDTO.username(), MailType.PROFILE_VERIFICATION);
+        log.info("Created Email Document in DB with id {} for user: {}", savedEmailDocument.getId(), userInformationDTO.username());
         return bifrostMail.sendMail(userInformationDTO.email(), MailType.PROFILE_VERIFICATION.subject, bodyContent);
     }
 }
