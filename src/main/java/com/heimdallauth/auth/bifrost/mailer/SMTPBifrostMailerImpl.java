@@ -21,7 +21,7 @@ public class SMTPBifrostMailerImpl implements BifrostMail{
     @Override
     public DeliveryStatus sendMail(String destinationEmail, String subject, String body) throws MessagingException {
         DeliveryStatus deliveryStatus = DeliveryStatus.PENDING;
-        InternetAddress destinationAddress = new InternetAddress("mayank.soni@mayanksini.tech");
+        InternetAddress destinationAddress = new InternetAddress(destinationEmail);
         InternetAddress fromAddress = new InternetAddress("noreply@heimdallauth.com");
         MimeMessage mailMessage = javaMailSender.createMimeMessage();
         mailMessage.addRecipient(Message.RecipientType.TO, destinationAddress);
