@@ -4,9 +4,7 @@ import com.heimdallauth.auth.bifrost.constants.DeliveryStatus;
 import com.heimdallauth.auth.bifrost.constants.MailType;
 import com.heimdallauth.auth.bifrost.dao.EmailDataManager;
 import com.heimdallauth.auth.bifrost.dao.EmailDocument;
-import com.heimdallauth.auth.bifrost.mailer.BifrostMail;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
