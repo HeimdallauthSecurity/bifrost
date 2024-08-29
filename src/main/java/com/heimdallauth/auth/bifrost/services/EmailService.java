@@ -1,0 +1,29 @@
+package com.heimdallauth.auth.bifrost.services;
+
+import com.heimdallauth.auth.bifrost.constants.DeliveryStatus;
+import com.heimdallauth.auth.bifrost.constants.MailType;
+import com.heimdallauth.auth.bifrost.dao.EmailDataManager;
+import com.heimdallauth.auth.bifrost.dao.EmailDocument;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmailService {
+    private final EmailDataManager emailDataManager;
+
+    @Autowired
+    public EmailService(EmailDataManager emailDataManager) {
+        this.emailDataManager = emailDataManager;
+    }
+    public EmailDocument createEmailDeliveryRecord(String emailAddress, String profileId, MailType mailType){
+        EmailDocument emailDocument = EmailDocument.builder()
+                .emailAddress(emailAddress)
+                .username(profileId)
+                .mailType(mailType)
+                .build();
+        return emailDataManager.saveEmail(emailDocument);
+    }
+    public EmailDocument updateEmailDeliveryStatus(String emailDocumentId, DeliveryStatus deliveryStatus){
+        return emailDataManager.updateEmailDeliveryStatus(emailDocumentId, deliveryStatus);
+    }
+}
