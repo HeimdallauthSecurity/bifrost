@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.time.Instant;
+
 @Service
 public class EmailService {
     private final EmailDataManager emailDataManager;
@@ -19,11 +21,15 @@ public class EmailService {
         this.emailDataManager = emailDataManager;
         this.templateEngine = templateEngine;
     }
-    public EmailDocument createEmailDeliveryRecord(String emailAddress, String profileId, MailType mailType){
+    public EmailDocument createEmailDeliveryRecord(String emailAddress, String profileId,String bodyContent,  MailType mailType){
         EmailDocument emailDocument = EmailDocument.builder()
                 .emailAddress(emailAddress)
                 .username(profileId)
+                .emailBody(bodyContent)
                 .mailType(mailType)
+                .requestCreatedOn(Instant.now())
+                .deliveryStatus(DeliveryStatus.PENDING)
+                .deliveryStatusUpdatedOn(Instant.now())
                 .build();
         return emailDataManager.saveEmail(emailDocument);
     }

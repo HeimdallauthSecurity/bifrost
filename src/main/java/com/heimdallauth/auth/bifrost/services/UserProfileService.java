@@ -42,7 +42,7 @@ public class UserProfileService {
         UserInformationDTO userInformationDTO = userProfileClient.getUserInformation(username);
         log.info("Sending verification email to user: {} with email: {}", userInformationDTO.username(), userInformationDTO.email());
         String bodyContent = emailService.generateEmailBody(userInformationDTO.username(), MailType.PROFILE_VERIFICATION);
-        EmailDocument savedEmailDocument = emailService.createEmailDeliveryRecord(userInformationDTO.email(), userInformationDTO.username(), MailType.PROFILE_VERIFICATION);
+        EmailDocument savedEmailDocument = emailService.createEmailDeliveryRecord(userInformationDTO.email(), userInformationDTO.username(), bodyContent, MailType.PROFILE_VERIFICATION);
         log.info("Created Email Document in DB with id {} for user: {}", savedEmailDocument.getId(), userInformationDTO.username());
         DeliveryStatus deliveryStatus = bifrostMail.sendMail(userInformationDTO.email(), MailType.PROFILE_VERIFICATION.subject, bodyContent);
         emailService.updateEmailDeliveryStatus(savedEmailDocument.getId(), deliveryStatus);
