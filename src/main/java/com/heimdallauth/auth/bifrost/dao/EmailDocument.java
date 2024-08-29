@@ -24,6 +24,7 @@ public class EmailDocument {
     private String username;
     @Indexed(unique = false)
     private String emailAddress;
+    private String emailBody;
     private MailType mailType;
     private DeliveryStatus deliveryStatus;
     private Instant requestCreatedOn;
