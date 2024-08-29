@@ -32,7 +32,8 @@ public class SMTPBifrostMailerImpl implements BifrostMail{
         mailMessage.setSubject(subject);
         mailMessage.setContent(body, "text/html");
         javaMailSender.send(mailMessage);
-        return DeliveryStatus.SENT;
+        deliveryStatus = DeliveryStatus.SENT;
+        return deliveryStatus;
     }
 
     @Override
