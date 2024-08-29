@@ -45,6 +45,8 @@ public class UserProfileService {
         String bodyContent = "Sample Email Message";
         EmailDocument savedEmailDocument = emailService.createEmailDeliveryRecord(userInformationDTO.email(), userInformationDTO.username(), MailType.PROFILE_VERIFICATION);
         log.info("Created Email Document in DB with id {} for user: {}", savedEmailDocument.getId(), userInformationDTO.username());
-        return bifrostMail.sendMail(userInformationDTO.email(), MailType.PROFILE_VERIFICATION.subject, bodyContent);
+        DeliveryStatus deliveryStatus = bifrostMail.sendMail(userInformationDTO.email(), MailType.PROFILE_VERIFICATION.subject, bodyContent);
+        emailService.updateEmailDeliveryStatus(savedEmailDocument.getId(), deliveryStatus);
+        return deliveryStatus;
     }
 }

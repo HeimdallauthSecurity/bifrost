@@ -1,5 +1,6 @@
 package com.heimdallauth.auth.bifrost.services;
 
+import com.heimdallauth.auth.bifrost.constants.DeliveryStatus;
 import com.heimdallauth.auth.bifrost.constants.MailType;
 import com.heimdallauth.auth.bifrost.dao.EmailDataManager;
 import com.heimdallauth.auth.bifrost.dao.EmailDocument;
@@ -23,5 +24,8 @@ public class EmailService {
                 .mailType(mailType)
                 .build();
         return emailDataManager.saveEmail(emailDocument);
+    }
+    public EmailDocument updateEmailDeliveryStatus(String emailDocumentId, DeliveryStatus deliveryStatus){
+        return emailDataManager.updateEmailDeliveryStatus(emailDocumentId, deliveryStatus);
     }
 }
