@@ -30,9 +30,9 @@ public class EmailService {
     public EmailDocument updateEmailDeliveryStatus(String emailDocumentId, DeliveryStatus deliveryStatus){
         return emailDataManager.updateEmailDeliveryStatus(emailDocumentId, deliveryStatus);
     }
-    public String generateEmailBody(String username){
+    public String generateEmailBody(String username, MailType mailType){
         Context context = new Context();
         context.setVariable("username", username);
-        return templateEngine.process("email-template", context);
+        return templateEngine.process(mailType.templateName, context);
     }
 }
