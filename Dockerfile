@@ -1,4 +1,9 @@
 # Use an official OpenJDK runtime as a parent image
+FROM gradle:latest AS builder
+
+COPY . .
+RUN gradle build -x test
+
 FROM eclipse-temurin:17-jre-focal
 ENV SPRING_PROFILES_ACTIVE=container
 ENV MONOGDB_URI mongodb://localhost:27017/kratos
@@ -9,7 +14,7 @@ ENV MONGODB_PASSWORD MONGO
 WORKDIR /app
 
 # Copy the JAR file from the GitHub Action artifact
-COPY bifrost.jar /app/bifrost.jar
+COPY --from=builder bifrost.jar /app/bifrost.jar
 
 # Expose the port the application runs on
 EXPOSE 8080
