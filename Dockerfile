@@ -1,5 +1,5 @@
 # Use an official OpenJDK runtime as a parent image
-FROM gradle:jdk-17-focal AS builder
+FROM gradle:jdk17-focal AS builder
 WORKDIR /workspace
 COPY . /workspace
 RUN gradle build -x test
