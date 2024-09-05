@@ -1,7 +1,7 @@
 # Use an official OpenJDK runtime as a parent image
 FROM gradle:latest AS builder
-
-COPY . .
+WORKDIR /workspace
+COPY . /workspace
 RUN gradle build -x test
 
 FROM eclipse-temurin:17-jre-focal
@@ -14,7 +14,7 @@ ENV MONGODB_PASSWORD MONGO
 WORKDIR /app
 
 # Copy the JAR file from the GitHub Action artifact
-COPY --from=builder bifrost.jar /app/bifrost.jar
+COPY --from=builder /workspace/build/libs/bifrost.jar /app/bifrost.jar
 
 # Expose the port the application runs on
 EXPOSE 8080
